@@ -1,9 +1,10 @@
-const express = require('express');
-const router = express.Router();
+const router        = require('express').Router();
+const authCtrl      = require('../controllers/authController');
 
-// Placeholder route
-router.get('/test', (req, res) => {
-  res.send('Auth route works!');
-});
+// /api/auth/register   POST {email, password}
+router.post('/register', authCtrl.register);
+
+// /api/auth/login      POST {email, password}
+router.post('/login',    authCtrl.login);
 
 module.exports = router;
