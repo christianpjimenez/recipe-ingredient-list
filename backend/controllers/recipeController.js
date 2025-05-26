@@ -1,4 +1,6 @@
 const Recipe = require('../models/Recipe');
+const Ingredient = require('../models/Ingredient');
+
 
 exports.getAll = async (req, res) => {
   try {
@@ -20,9 +22,44 @@ exports.getOne = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
+  console.log("Recipe request body:", req.body);
   try {
-    const newRecipe = await Recipe.create(req.body);
-    res.status(201).json(newRecipe);
+    const recipeName = req.body.name?.trim().toLowerCase();
+    const { description, ingredients, steps } = req.body;
+
+
+    const existingRecipe = await Recipe.findOne({ name: recipeName });
+
+    if (existingRecipe) {
+      return res.status(400).json({ message: "Recipe already exists." });
+    }
+
+    const processedIngredients = await Promise.all(
+      ingredients.map(async (item) => {
+        const ingredientName = item.name.toLowerCase().trim();
+        const unit = item.unit.toLowerCase().trim();
+
+        let existing = await Ingredient.findOne({ name: ingredientName });
+
+        if (!existing) {
+          existing = await Ingredient.create({ name: ingredientName, unit });
+        }
+
+        return {
+          ingredient: existing._id,
+          quantity: item.quantity
+        };
+      })
+    );
+
+    const newRecipe = await Recipe.create({
+      name: recipeName,
+      description,
+      ingredients: processedIngredients,
+      steps
+    });
+
+      res.status(201).json(newRecipe);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
