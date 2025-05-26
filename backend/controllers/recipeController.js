@@ -24,7 +24,15 @@ exports.getOne = async (req, res) => {
 exports.create = async (req, res) => {
   console.log("Recipe request body:", req.body);
   try {
-    const { name: recipeName, description, ingredients, steps } = req.body;
+    const recipeName = req.body.name?.trim().toLowerCase();
+    const { description, ingredients, steps } = req.body;
+
+
+    const existingRecipe = await Recipe.findOne({ name: recipeName });
+
+    if (existingRecipe) {
+      return res.status(400).json({ message: "Recipe already exists." });
+    }
 
     const processedIngredients = await Promise.all(
       ingredients.map(async (item) => {
