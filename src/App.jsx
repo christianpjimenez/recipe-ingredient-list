@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import Home from './pages/Home';
 import Recipes from './pages/Recipes';
@@ -6,6 +6,9 @@ import List from './pages/List';
 import './App.css'; 
 
 function App() {
+  const [selectedRecipes, setSelectedRecipes] = useState([]);
+  
+
   return (
     <Router>
       <nav style={{ display: 'flex', gap: '1rem', padding: '1rem' }}>
@@ -15,8 +18,8 @@ function App() {
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/recipes" element={<Recipes />} />
-        <Route path="/list" element={<List />} />
+        <Route path="/recipes" element={<Recipes selectedRecipes={selectedRecipes} setSelectedRecipes={setSelectedRecipes} />} />
+        <Route path="/list" element={<List selectedRecipes={selectedRecipes} />} />
       </Routes>
     </Router>
   );
