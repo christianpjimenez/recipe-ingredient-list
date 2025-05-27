@@ -1,9 +1,20 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function List({ selectedRecipes }) {
+function List({ selectedRecipes, setSelectedRecipes }) {
   const [ingredients, setIngredients] = useState([]);
-  const [checked, setChecked] = useState([]);
+  const [checked, setChecked] = useState(() => {
+  try {
+    const stored = localStorage.getItem('checked');
+    return stored ? JSON.parse(stored) : {};
+  } catch {
+    return {};
+  }
+});
+
+  useEffect(() => {
+    localStorage.setItem('checked', JSON.stringify(checked));
+  }, [checked]);
 
   useEffect(() => {
     if (selectedRecipes.length === 0) return;
@@ -15,33 +26,42 @@ function List({ selectedRecipes }) {
       .catch(err => console.error(err));
   }, [selectedRecipes]);
 
-  const toggleCheck = (id) => {
-    setChecked(prev =>
-      prev.includes(id)
-        ? prev.filter(cid => cid !== id)
-        : [...prev, id]
-    );
-  };
+  function resetList() {
+  setChecked({});
+  setIngredients([]);
+  setSelectedRecipes([]); 
+  localStorage.removeItem('selectedRecipes');
+  localStorage.removeItem('checkedItems');
+  }
 
   return (
     <div>
       <h2>Supermarket List</h2>
       {ingredients.length === 0 && <p>No recipes selected.</p>}
       <ul style={{ listStyle: 'none', padding: 0 }}>
-        {ingredients.map(item => (
-          <li key={item.id} style={{ marginBottom: '1rem' }}>
-            <label style={{ textDecoration: checked.includes(item.id) ? 'line-through' : 'none' }}>
+        {ingredients.map((item) => (
+          <li key={item.id}>
+            <label>
               <input
                 type="checkbox"
-                checked={checked.includes(item.id)}
-                onChange={() => toggleCheck(item.id)}
+                checked={checked[item.id] || false}
+                onChange={() =>
+                  setChecked(prev => ({
+                    ...prev,
+                    [item.id]: !prev[item.id]
+                  }))
+                }
               />
-              {' '}
-              {item.total} {item.unit} {item.name}
+              <span style={{ textDecoration: checked[item.id] ? 'line-through' : 'none' }}>
+                {item.total} {item.unit} {item.name}
+              </span>
             </label>
           </li>
         ))}
       </ul>
+      <button onClick={resetList} style={{ marginTop: '1rem' }}>
+        Reset List
+      </button>
     </div>
   );
 }

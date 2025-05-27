@@ -12,11 +12,13 @@ function Recipes({ selectedRecipes, setSelectedRecipes }) {
   }, []);
 
   const toggleSelect = (id) => {
-    setSelectedRecipes((prev) =>
-      prev.includes(id)
+    setSelectedRecipes((prev) => {
+      const updated = prev.includes(id)
         ? prev.filter((rid) => rid !== id)
-        : [...prev, id]
-    );
+        : [...prev, id];
+      localStorage.setItem('selectedRecipes', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   return (
