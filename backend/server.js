@@ -6,6 +6,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/authRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
 const ingredientRoutes = require('./routes/ingredientRoutes');
+const listRoutes = require('./routes/listRoutes');
 
 const app = express();
 app.use(cors());
@@ -15,6 +16,8 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/api/ingredients', ingredientRoutes);
+app.use('/api/list', listRoutes);
+
 
 // DB connection
 mongoose.connect(process.env.MONGO_URI)
