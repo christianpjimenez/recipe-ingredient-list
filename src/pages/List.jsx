@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState , useRef } from 'react';
 import axios from 'axios';
 
 function List({ selectedRecipes, setSelectedRecipes }) {
+  const listRef = useRef();
   const [ingredients, setIngredients] = useState([]);
   const [checked, setChecked] = useState(() => {
   try {
@@ -26,6 +27,23 @@ function List({ selectedRecipes, setSelectedRecipes }) {
       .catch(err => console.error(err));
   }, [selectedRecipes]);
 
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleExport = () => {
+  const text = ingredients
+    .map((item) => `- ${item.name}: ${item.total} ${item.unit}`)
+    .join('\n');
+
+  const blob = new Blob([text], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'supermarket-list.txt';
+  link.click();
+};
+
+
   function resetList() {
   setChecked({});
   setIngredients([]);
@@ -35,7 +53,7 @@ function List({ selectedRecipes, setSelectedRecipes }) {
   }
 
   return (
-    <div>
+    <div ref={listRef}>
       <h2>Supermarket List</h2>
       {ingredients.length === 0 && <p>No recipes selected.</p>}
       <ul style={{ listStyle: 'none', padding: 0 }}>
@@ -59,9 +77,10 @@ function List({ selectedRecipes, setSelectedRecipes }) {
           </li>
         ))}
       </ul>
-      <button onClick={resetList} style={{ marginTop: '1rem' }}>
-        Reset List
-      </button>
+      <br />
+      <button onClick={resetList}>🔄 Reset List</button>
+      <button onClick={handlePrint}>🖨️ Print List</button>
+      <button onClick={handleExport}>📄 Export as TXT</button>
     </div>
   );
 }
