@@ -9,7 +9,7 @@ const ingredientSchema = new mongoose.Schema({
   },
   unit: {
     type: String,
-    enum: ['g', 'ml', 'pcs', 'units', 'packs', 'tbsp', 'tsp', 'cup', 'pinch'], 
+    enum: ['g', 'ml', 'units', 'tbsp', 'tsp', 'cup', 'pinch'], 
     required: true,
   }
 });
