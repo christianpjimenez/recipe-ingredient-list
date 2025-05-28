@@ -4,6 +4,7 @@ const { verifyToken, isAdmin } = require('../middleware/authMiddleware');
 
 // 🟢 Public
 router.get('/',       ingredientCtrl.getAll);
+router.get('/search', ingredientCtrl.search);
 router.get('/:id',    ingredientCtrl.getOne);
 
 // 🔐 Admin-only
