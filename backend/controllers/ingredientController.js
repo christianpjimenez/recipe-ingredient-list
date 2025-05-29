@@ -9,6 +9,22 @@ exports.getAll = async (req, res) => {
   }
 };
 
+exports.search = async (req, res) => {
+  const q = req.query.q;
+  if (!q) return res.json([]);
+
+  try {
+    const results = await Ingredient.find({
+      name: { $regex: new RegExp(q, 'i') }
+    }).limit(10);
+
+    res.json(results);
+  } catch (err) {
+    res.status(500).json({ message: 'Search failed' });
+  }
+};
+
+
 exports.getOne = async (req, res) => {
   try {
     const ingredient = await Ingredient.findById(req.params.id);

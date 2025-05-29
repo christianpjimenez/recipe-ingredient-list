@@ -112,15 +112,36 @@ function Recipes({ selectedRecipes, setSelectedRecipes }) {
                   type="text"
                   placeholder="Ingredient name"
                   value={ing.name}
-                  onChange={(e) => handleFormChange(e, idx, 'name')}
-                  onBlur={() => handleIngredientSearch(ing.name, idx)}
+                  onChange={(e) => {
+                    handleFormChange(e, idx, 'name');
+                    handleIngredientSearch(e.target.value, idx);
+                  }}
                   required
                 />
+                {ingredientSuggestions.length > 0 && (
+                  <ul style={{ background: '#333', color: '#fff', listStyle: 'none', padding: '0.5rem', position: 'absolute', zIndex: 1000 }}>
+                    {ingredientSuggestions.map((suggestion, i) => (
+                      <li
+                        key={i}
+                        style={{ padding: '0.25rem 0.5rem', cursor: 'pointer' }}
+                        onClick={() => {
+                          const updatedIngredients = [...formData.ingredients];
+                          updatedIngredients[idx].name = suggestion.name;
+                          setFormData({ ...formData, ingredients: updatedIngredients });
+                          setIngredientSuggestions([]);
+                        }}
+                      >
+                        {suggestion.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <input
                   type="number"
                   placeholder="Quantity"
                   value={ing.quantity}
                   onChange={(e) => handleFormChange(e, idx, 'quantity')}
+                  min="0"
                   required
                 />
                 <select
