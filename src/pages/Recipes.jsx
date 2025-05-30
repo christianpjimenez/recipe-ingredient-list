@@ -93,21 +93,24 @@ function Recipes({ selectedRecipes, setSelectedRecipes }) {
       ))}
 
       {isAdmin && (
-        <div style={{ border: '2px solid green', padding: '1rem', marginTop: '2rem' }}>
+        <div style={{ border: '2px solid var(--darkred)', padding: '1rem', marginTop: '2rem' }}>
+          
           <h3>Add New Recipe</h3>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Name:</label>
-              <input name="name" value={formData.name} onChange={handleFormChange} required />
-            </div>
-            <div>
-              <label>Description:</label>
-              <textarea name="description" value={formData.description} onChange={handleFormChange} required />
-            </div>
+            <form onSubmit={handleSubmit}>
+              <div className='input-container'>
+                <div>
+                  <label>Name:</label>
+                  <input name="name" value={formData.name} onChange={handleFormChange} required />
+                </div>
+                <div>
+                  <label>Description:</label>
+                  <textarea name="description" value={formData.description} onChange={handleFormChange} required />
+                </div>
+              </div>
 
             <h4>Ingredients</h4>
             {formData.ingredients.map((ing, idx) => (
-              <div key={idx}>
+              <div className='ingredient-container' key={idx}>
                 <input
                   type="text"
                   placeholder="Ingredient name"
@@ -154,9 +157,10 @@ function Recipes({ selectedRecipes, setSelectedRecipes }) {
                 </select>
               </div>
             ))}
-            <button type="button" onClick={addIngredientField}>Add Ingredient</button>
-
-            <button type="submit" style={{ display: 'block', marginTop: '1rem' }}>Submit Recipe</button>
+            <div className="button-container">
+              <button type="button" onClick={addIngredientField}>Add Ingredient</button>
+              <button type="submit">Submit Recipe</button>
+            </div>
           </form>
         </div>
       )}
