@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: supermarket-app
+    name: recipe-ingredient-list
     env: node
     plan: free
     buildCommand: npm run build-client
