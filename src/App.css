@@ -122,9 +122,10 @@ input:-internal-autofill-selected{
   transition: background-color 0.2s;
   border-bottom: solid 1px var(--darkgray);
   text-align: left;
-  &:hover {
-    background-color: var(--gray);
-  }
+}
+
+.suggestion li:hover {
+  background-color: var(--gray);
 }
 
 .suggestions li:last-child {
