@@ -10,21 +10,33 @@ body{
   text-align: center;
 }
 
-#root nav{
-  justify-content: center;
+#root nav.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
   border-bottom: solid 3px var(--darkgray);
+  flex-wrap: wrap;
 }
 
-a{
-  color: var(--darkred);
-  text-decoration: none;
+.hamburger {
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+  user-select: none;
 }
 
-nav a{
+/* Default desktop menu */
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
   padding: 0.5rem 1rem;
 }
 
-a.active{
+nav a.active {
   color: var(--white);
   background-color: var(--darkred);
   font-weight: bold;
@@ -47,6 +59,10 @@ input, textarea, select {
   padding: 0.5rem;
   color: var(--black);
   max-width: 1200px;
+}
+
+input[type="checkbox" i] {
+  color: var(--white);
 }
 
 input:-internal-autofill-selected{
@@ -75,4 +91,42 @@ input:-internal-autofill-selected{
   justify-content: center;
   gap: 0.5rem;
   place-self: center;
+}
+
+.supermarket-image{
+  max-width: 800px;
+  height: auto;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav-links.show {
+    display: flex;
+    margin-top: 1rem;
+  }
+
+  nav a {
+    text-align: center;
+    border-top: 1px solid var(--darkgray);
+  }
+
+  .ingredient-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .supermarket-image {
+    max-width: 100%;
+    height: auto;
+  }
 }

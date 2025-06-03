@@ -33,7 +33,7 @@ function Login({ setIsLoggedIn }) {
         setIsLoggedIn(true);
 
         // ✅ Redirect
-        navigate('/recipes');
+        navigate('/add-recipe');
       } else {
         alert('Registered successfully! You can now log in.');
         setMode('login');
