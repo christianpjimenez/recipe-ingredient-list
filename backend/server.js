@@ -27,11 +27,11 @@ app.use('/api/list', listRoutes);
 console.log('All routes mounted successfully');
 
 console.log('Serving static files from:', path.join(__dirname, '../dist'));
-app.get('*', (req, res) => {
+/*app.get('*', (req, res) => {
   const indexPath = path.join(__dirname, '../dist', 'index.html');
   console.log('Serving index.html from:', indexPath);
   res.sendFile(indexPath);
-});
+});*/
 
 console.log('Express app initialized and static files served, fetching database and port from environment variables');
 // DB connection + start server
