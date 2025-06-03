@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react';
+import { useState , useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import Home from './pages/Home';
@@ -9,6 +9,7 @@ import AddRecipe from './pages/AddRecipe';
 import './App.css'; 
 
 function App() {
+  const [showMenu, setShowMenu] = useState(false);
   const [selectedRecipes, setSelectedRecipes] = useState(() => {
     const stored = localStorage.getItem('selectedRecipes');
     return stored ? JSON.parse(stored) : [];
@@ -37,13 +38,18 @@ function App() {
 
   return (
     <Router>
-      <nav style={{ display: 'flex', gap: '1rem', padding: '1rem' }}>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/recipes">Recipes</NavLink>
-        <NavLink to="/add-recipe">Add Recipe</NavLink>
-        <NavLink to="/list">Supermarket List</NavLink>
-        {!isLoggedIn && <NavLink to="/login">Login</NavLink>}
-        {isLoggedIn && <a onClick={handleLogout}>Logout</a>}
+      <nav className="navbar">
+        <div className="hamburger" onClick={() => setShowMenu(!showMenu)}>
+          ☰
+        </div>
+        <div className={`nav-links ${showMenu ? 'show' : ''}`}>
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/recipes">Recipes</NavLink>
+          <NavLink to="/add-recipe">Add Recipe</NavLink>
+          <NavLink to="/list">Supermarket List</NavLink>
+          {!isLoggedIn && <NavLink to="/login">Login</NavLink>}
+          {isLoggedIn && <a onClick={handleLogout}>Logout</a>}
+        </div>
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
