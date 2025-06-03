@@ -5,6 +5,154 @@
   text-align: center;
 }
 
-#root nav{
+#root nav.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: solid 3px var(--darkgray);
+  flex-wrap: wrap;
+}
+
+.hamburger {
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+  user-select: none;
+}
+
+/* Default desktop menu */
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+nav a.active {
+  color: var(--white);
+  background-color: var(--darkred);
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+button{
+  background-color: var(--red);
+  color: var(--white);
+  border: none;
+  padding: 0.7rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+input, textarea, select {
+  background-color: var(--white);
+  border: solid 1px var(--red);
+  border-radius: 5px;
+  padding: 0.5rem;
+  color: var(--black);
+  max-width: 1200px;
+  font-size: 1rem;
+}
+
+input[type="checkbox" i] {
+  color: var(--white);
+}
+
+input:-internal-autofill-selected{
+  background-color: var(--darkred) !important;
+}
+
+.input-container>div, form>div{
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+}
+
+.ingredient-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.button-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  place-self: center;
+}
+
+.supermarket-image{
+  max-width: 800px;
+  height: auto;
+}
+
+.suggestions{
+  background: var(--white);
+  color: var(--black);
+  list-style: none;
+  padding: 0;
+  position: absolute;  
+  z-index: 50;
+  margin-top: 3px;
+  width: 100%;
+  max-width: 250px;
+  border-radius: 5px;
+  border: solid 1px var(--darkgray);
+}
+
+.suggestions li {
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: solid 1px var(--darkgray);
+  text-align: left;
+  &:hover {
+    background-color: var(--gray);
+  }
+}
+
+.suggestions li:last-child {
+  border-bottom: none;
+}
+
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav-links.show {
+    display: flex;
+    margin-top: 1rem;
+  }
+
+  nav a {
+    text-align: center;
+    border-top: 1px solid var(--darkgray);
+  }
+
+  .ingredient-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .supermarket-image {
+    max-width: 100%;
+    height: auto;
+  }
 }

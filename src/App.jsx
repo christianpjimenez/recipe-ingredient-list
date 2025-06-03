@@ -7,6 +7,8 @@ import Login from './pages/Login';
 import './App.css'; 
 
 function App() {
+  const [showMenu, setShowMenu] = useState(false);
+  const [formData, setFormData] = useState({ name: '', description: '', ingredients: [{ name: '', quantity: '', unit: 'g' }] });
   const [selectedRecipes, setSelectedRecipes] = useState(() => {
     const stored = localStorage.getItem('selectedRecipes');
     return stored ? JSON.parse(stored) : [];
@@ -26,6 +28,13 @@ function App() {
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/list" element={<List selectedRecipes={selectedRecipes} setSelectedRecipes={setSelectedRecipes} />} />
+        <Route path="/add-recipe" element={
+          localStorage.getItem('token') ? 
+          <AddRecipe formData={formData} setFormData={setFormData} /> : 
+          <Login setIsLoggedIn={setIsLoggedIn} />
+        } />
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/recipes" element={<Recipes selectedRecipes={selectedRecipes} setSelectedRecipes={setSelectedRecipes} />} />
         <Route path="/list" element={<List selectedRecipes={selectedRecipes} setSelectedRecipes={setSelectedRecipes} />} />
         <Route path="/login" element={<Login />} />
