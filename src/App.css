@@ -48,7 +48,11 @@ input, textarea, select {
   color: var(--black);
 }
 
-.input-container>div{
+input:-internal-autofill-selected{
+  background-color: var(--darkred) !important;
+}
+
+.input-container>div, form>div{
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
