@@ -55,7 +55,7 @@ function Login() {
             value={formData.email}
             onChange={handleChange}
             required
-            style={{ display: 'block', width: '100%', marginBottom: '1rem' }}
+            style={{ display: 'block', maxwidth: '100%', marginBottom: '1rem' }}
           />
         </div>
         <div>
@@ -66,7 +66,7 @@ function Login() {
             value={formData.password}
             onChange={handleChange}
             required
-            style={{ display: 'block', width: '100%', marginBottom: '1rem' }}
+            style={{ display: 'block', maxwidth: '100%', marginBottom: '1rem' }}
           />
         </div>
 
