@@ -2,20 +2,20 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
-function AddRecipe({ selectedRecipes, setSelectedRecipes }) {
+function AddRecipe({ formData, setFormData }) {
   const [recipes, setRecipes] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [formData, setFormData] = useState({ name: '', description: '', ingredients: [{ name: '', quantity: '', unit: 'g' }] });
   const [ingredientSuggestions, setIngredientSuggestions] = useState([]);
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(null); 
 
   useEffect(() => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    const decoded = jwtDecode(token);
-    console.log('Decoded token:', decoded); 
-    setIsAdmin(decoded.role === 'admin');
-  }
-}, []);
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decoded = jwtDecode(token);
+      console.log('Decoded token:', decoded); 
+      setIsAdmin(decoded.role === 'admin');
+    }
+  }, []);
 
   const handleFormChange = (e, idx = null, field = null) => {
     if (idx !== null) {
@@ -35,7 +35,12 @@ function AddRecipe({ selectedRecipes, setSelectedRecipes }) {
   };
 
   const handleIngredientSearch = async (name, idx) => {
-    if (name.trim() === '') return;
+
+    setActiveSuggestionIndex(idx); // Set which input the suggestions belong to
+    if (name.trim() === '') {
+      setIngredientSuggestions([]);
+      return;
+    }
     try {
       const res = await axios.get(`http://localhost:5000/api/ingredients/search?q=${name}`);
       setIngredientSuggestions(res.data);
@@ -44,6 +49,14 @@ function AddRecipe({ selectedRecipes, setSelectedRecipes }) {
     }
   };
 
+
+  const handleSuggestionClick = (suggestion, idx) => {
+    const updatedIngredients = [...formData.ingredients];
+    updatedIngredients[idx].name = suggestion.name;
+    setFormData({ ...formData, ingredients: updatedIngredients });
+    setIngredientSuggestions([]);
+    setActiveSuggestionIndex(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,51 +80,50 @@ function AddRecipe({ selectedRecipes, setSelectedRecipes }) {
     <div>
       {isAdmin && (
         <div style={{ border: '2px solid var(--darkred)', padding: '1rem', marginTop: '2rem' }}>
-          
+
           <h3>Add New Recipe</h3>
-            <form onSubmit={handleSubmit}>
-              <div className='input-container'>
-                <div>
-                  <label>Name:</label>
-                  <input name="name" value={formData.name} onChange={handleFormChange} required />
-                </div>
-                <div>
-                  <label>Description:</label>
-                  <textarea name="description" value={formData.description} onChange={handleFormChange} required />
-                </div>
+          <form onSubmit={handleSubmit}>
+            <div className='input-container'>
+              <div>
+                <label>Name:</label>
+                <input name="name" value={formData.name} onChange={handleFormChange} required />
               </div>
+              <div>
+                <label>Description:</label>
+                <textarea name="description" value={formData.description} onChange={handleFormChange} required />
+              </div>
+            </div>
 
             <h4>Ingredients</h4>
             {formData.ingredients.map((ing, idx) => (
-              <div className='ingredient-container' key={idx}>
-                <input
-                  type="text"
-                  placeholder="Ingredient name"
-                  value={ing.name}
-                  onChange={(e) => {
-                    handleFormChange(e, idx, 'name');
-                    handleIngredientSearch(e.target.value, idx);
-                  }}
-                  required
-                />
-                {ingredientSuggestions.length > 0 && (
-                  <ul style={{ background: '#333', color: '#fff', listStyle: 'none', padding: '0.5rem', position: 'absolute', zIndex: 1000 }}>
-                    {ingredientSuggestions.map((suggestion, i) => (
-                      <li
-                        key={i}
-                        style={{ padding: '0.25rem 0.5rem', cursor: 'pointer' }}
-                        onClick={() => {
-                          const updatedIngredients = [...formData.ingredients];
-                          updatedIngredients[idx].name = suggestion.name;
-                          setFormData({ ...formData, ingredients: updatedIngredients });
-                          setIngredientSuggestions([]);
-                        }}
-                      >
-                        {suggestion.name}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+              <div className='ingredient-container' key={idx} style={{ position: 'relative' }}>
+                <div style={{ position: 'relative' }}>
+                  <input
+                    type="text"
+                    placeholder="Ingredient name"
+                    value={ing.name}
+                    onChange={(e) => {
+                      handleFormChange(e, idx, 'name');
+                      handleIngredientSearch(e.target.value, idx);
+                    }}
+                    onFocus={() => setActiveSuggestionIndex(idx)} // set when focused
+                    required
+                  />
+                  {ingredientSuggestions.length > 0 && activeSuggestionIndex === idx && (
+                    <ul className='suggestions'>
+                      {ingredientSuggestions.map((suggestion, i) => (
+                        <li
+                          key={i}
+                          style={{ padding: '0.25rem 0.5rem', cursor: 'pointer' }}
+                          onClick={() => handleSuggestionClick(suggestion, idx)}
+                        >
+                          {suggestion.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
                 <input
                   type="number"
                   placeholder="Quantity"
@@ -131,6 +143,7 @@ function AddRecipe({ selectedRecipes, setSelectedRecipes }) {
               </div>
             ))}
             <div className="button-container">
+              <br />
               <button type="button" onClick={addIngredientField}>Add Ingredient</button>
               <button type="submit">Submit Recipe</button>
             </div>

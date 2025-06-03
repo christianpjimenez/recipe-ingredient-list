@@ -34,6 +34,7 @@ body{
 
 nav a {
   padding: 0.5rem 1rem;
+  cursor: pointer;
 }
 
 nav a.active {
@@ -47,9 +48,10 @@ button{
   background-color: var(--red);
   color: var(--white);
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1rem;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 0.9rem;
 }
 
 input, textarea, select {
@@ -59,6 +61,8 @@ input, textarea, select {
   padding: 0.5rem;
   color: var(--black);
   max-width: 1200px;
+  feature/add-recipe
+  font-size: 1rem;
 }
 
 input[type="checkbox" i] {
@@ -82,7 +86,7 @@ input:-internal-autofill-selected{
   flex-direction: row;
   justify-content: center;
   gap: 0.5rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .button-container{
@@ -91,6 +95,73 @@ input:-internal-autofill-selected{
   justify-content: center;
   gap: 0.5rem;
   place-self: center;
+}
+
+.supermarket-image{
+  max-width: 800px;
+  height: auto;
+}
+
+.suggestions{
+  background: var(--white);
+  color: var(--black);
+  list-style: none;
+  padding: 0;
+  position: absolute;  
+  z-index: 50;
+  margin-top: 3px;
+  width: 100%;
+  max-width: 250px;
+  border-radius: 5px;
+  border: solid 1px var(--darkgray);
+}
+
+.suggestions li {
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: solid 1px var(--darkgray);
+  text-align: left;
+  &:hover {
+    background-color: var(--gray);
+  }
+}
+
+.suggestions li:last-child {
+  border-bottom: none;
+}
+
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav-links.show {
+    display: flex;
+    margin-top: 1rem;
+  }
+
+  nav a {
+    text-align: center;
+    border-top: 1px solid var(--darkgray);
+  }
+
+  .ingredient-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .supermarket-image {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 .supermarket-image{
