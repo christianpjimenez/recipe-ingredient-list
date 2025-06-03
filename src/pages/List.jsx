@@ -78,9 +78,15 @@ function List({ selectedRecipes, setSelectedRecipes }) {
         ))}
       </ul>
       <br />
-      <button onClick={resetList}>🔄 Reset List</button>
-      <button onClick={handlePrint}>🖨️ Print List</button>
-      <button onClick={handleExport}>📄 Export as TXT</button>
+      <div>
+        <div className='button-container'>
+            <button onClick={resetList}>🔄 Reset List</button>
+          
+            <button onClick={handlePrint}>🖨️ Print List</button>
+          
+            <button onClick={handleExport}>📄 Export as TXT</button>
+        </div>
+      </div>
     </div>
   );
 }

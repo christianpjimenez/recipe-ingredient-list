@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login({ setIsLoggedIn }) {
   const [mode, setMode] = useState('login'); // 'login' or 'register'
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -30,9 +30,10 @@ function Login() {
       if (mode === 'login') {
         // ✅ Store token
         localStorage.setItem('token', data.token);
+        setIsLoggedIn(true);
 
         // ✅ Redirect
-        navigate('/recipes');
+        navigate('/add-recipe');
       } else {
         alert('Registered successfully! You can now log in.');
         setMode('login');
@@ -55,7 +56,7 @@ function Login() {
             value={formData.email}
             onChange={handleChange}
             required
-            style={{ display: 'block', width: '100%', marginBottom: '1rem' }}
+            style={{ display: 'block', maxwidth: '100%', marginBottom: '1rem' }}
           />
         </div>
         <div>
@@ -66,7 +67,7 @@ function Login() {
             value={formData.password}
             onChange={handleChange}
             required
-            style={{ display: 'block', width: '100%', marginBottom: '1rem' }}
+            style={{ display: 'block', maxwidth: '100%', marginBottom: '1rem' }}
           />
         </div>
 
@@ -75,7 +76,7 @@ function Login() {
         <button type="submit">{mode === 'login' ? 'Login' : 'Register'}</button>
       </form>
 
-      <p style={{ marginTop: '1rem' }}>
+      <p style={{ marginTop: '2.5rem' }}>
         {mode === 'login' ? (
           <>Don't have an account?{' '}
             <button type="button" onClick={() => setMode('register')}>Register</button>

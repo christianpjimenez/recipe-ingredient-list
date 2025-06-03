@@ -1,3 +1,8 @@
+body{
+  background-color: var(--white);
+  color: var(--black);
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -56,6 +61,7 @@ input, textarea, select {
   padding: 0.5rem;
   color: var(--black);
   max-width: 1200px;
+  feature/add-recipe
   font-size: 1rem;
 }
 
@@ -72,6 +78,7 @@ input:-internal-autofill-selected{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 0.5rem;
 }
 
 .ingredient-container{
@@ -125,6 +132,44 @@ input:-internal-autofill-selected{
 }
 
 
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav-links.show {
+    display: flex;
+    margin-top: 1rem;
+  }
+
+  nav a {
+    text-align: center;
+    border-top: 1px solid var(--darkgray);
+  }
+
+  .ingredient-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .supermarket-image {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.supermarket-image{
+  max-width: 800px;
+  height: auto;
+}
+
+/* Mobile styles */
 @media (max-width: 768px) {
   .hamburger {
     display: block;

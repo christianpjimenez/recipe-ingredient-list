@@ -25,7 +25,7 @@ function Recipes({ selectedRecipes, setSelectedRecipes }) {
     <div>
       <h2>Select Recipes</h2>
       {recipes.map(recipe => (
-        <div key={recipe._id} style={{ border: '1px solid #ccc', padding: '1rem', margin: '1rem 0' }}>
+        <div key={recipe._id} style={{ border: '1px solid var(--red)', padding: '1rem', margin: '1rem 0' }}>
           <h3>{recipe.name.charAt(0).toUpperCase() + recipe.name.slice(1)}</h3>
           <p>{recipe.description}</p>
           <button onClick={() => toggleSelect(recipe._id)}>
@@ -33,7 +33,6 @@ function Recipes({ selectedRecipes, setSelectedRecipes }) {
           </button>
         </div>
       ))}
-
     </div>
   );
 }

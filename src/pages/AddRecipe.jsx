@@ -35,6 +35,7 @@ function AddRecipe({ formData, setFormData }) {
   };
 
   const handleIngredientSearch = async (name, idx) => {
+
     setActiveSuggestionIndex(idx); // Set which input the suggestions belong to
     if (name.trim() === '') {
       setIngredientSuggestions([]);
@@ -47,6 +48,7 @@ function AddRecipe({ formData, setFormData }) {
       console.error(err);
     }
   };
+
 
   const handleSuggestionClick = (suggestion, idx) => {
     const updatedIngredients = [...formData.ingredients];
@@ -78,6 +80,7 @@ function AddRecipe({ formData, setFormData }) {
     <div>
       {isAdmin && (
         <div style={{ border: '2px solid var(--darkred)', padding: '1rem', marginTop: '2rem' }}>
+
           <h3>Add New Recipe</h3>
           <form onSubmit={handleSubmit}>
             <div className='input-container'>
@@ -120,6 +123,7 @@ function AddRecipe({ formData, setFormData }) {
                     </ul>
                   )}
                 </div>
+
                 <input
                   type="number"
                   placeholder="Quantity"
