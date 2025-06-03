@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
-function Recipes({ selectedRecipes, setSelectedRecipes }) {
+function AddRecipe({ selectedRecipes, setSelectedRecipes }) {
   const [recipes, setRecipes] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [formData, setFormData] = useState({ name: '', description: '', ingredients: [{ name: '', quantity: '', unit: 'g' }] });
@@ -12,25 +12,10 @@ function Recipes({ selectedRecipes, setSelectedRecipes }) {
   const token = localStorage.getItem('token');
   if (token) {
     const decoded = jwtDecode(token);
+    console.log('Decoded token:', decoded); 
     setIsAdmin(decoded.role === 'admin');
   }
 }, []);
-
-  useEffect(() => {
-    axios.get('http://localhost:5000/api/recipes')
-      .then(res => setRecipes(res.data))
-      .catch(err => console.error(err));
-  }, []);
-
-  const toggleSelect = (id) => {
-    setSelectedRecipes((prev) => {
-      const updated = prev.includes(id)
-        ? prev.filter((rid) => rid !== id)
-        : [...prev, id];
-      localStorage.setItem('selectedRecipes', JSON.stringify(updated));
-      return updated;
-    });
-  };
 
   const handleFormChange = (e, idx = null, field = null) => {
     if (idx !== null) {
@@ -80,17 +65,6 @@ function Recipes({ selectedRecipes, setSelectedRecipes }) {
 
   return (
     <div>
-      <h2>Select Recipes</h2>
-      {recipes.map(recipe => (
-        <div key={recipe._id} style={{ border: '1px solid var(--red)', padding: '1rem', margin: '1rem 0' }}>
-          <h3>{recipe.name.charAt(0).toUpperCase() + recipe.name.slice(1)}</h3>
-          <p>{recipe.description}</p>
-          <button onClick={() => toggleSelect(recipe._id)}>
-            {selectedRecipes.includes(recipe._id) ? 'Remove from List' : 'Add to List'}
-          </button>
-        </div>
-      ))}
-
       {isAdmin && (
         <div style={{ border: '2px solid var(--darkred)', padding: '1rem', marginTop: '2rem' }}>
           
@@ -167,4 +141,4 @@ function Recipes({ selectedRecipes, setSelectedRecipes }) {
   );
 }
 
-export default Recipes;
+export default AddRecipe;
