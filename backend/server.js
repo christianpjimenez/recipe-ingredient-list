@@ -24,11 +24,14 @@ console.log('Mounting ingredientRoutes');
 app.use('/api/ingredients', ingredientRoutes);
 console.log('Mounting listRoutes');
 app.use('/api/list', listRoutes);
+console.log('All routes mounted successfully');
 
+console.log('Serving static files from:', path.join(__dirname, '../dist'));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist', 'index.html'));
 });
 
+console.log('Express app initialized and static files served, fetching database and port from environment variables');
 // DB connection + start server
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
