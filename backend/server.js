@@ -16,9 +16,13 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../dist')));
 
 // API routes
+console.log('Mounting authRoutes');
 app.use('/api/auth', authRoutes);
+console.log('Mounting recipeRoutes');
 app.use('/api/recipes', recipeRoutes);
+console.log('Mounting ingredientRoutes');    
 app.use('/api/ingredients', ingredientRoutes);
+console.log('Mounting listRoutes');
 app.use('/api/list', listRoutes);
 
 app.get('*', (req, res) => {
