@@ -42,7 +42,7 @@ function AddRecipe({ formData, setFormData }) {
       return;
     }
     try {
-      const res = await axios.get(`http://localhost:5000/api/ingredients/search?q=${name}`);
+      const res = await axios.get(`/api/ingredients/search?q=${name}`);
       setIngredientSuggestions(res.data);
     } catch (err) {
       console.error(err);
@@ -62,14 +62,14 @@ function AddRecipe({ formData, setFormData }) {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      await axios.post('http://localhost:5000/api/recipes', formData, {
+      await axios.post('/api/recipes', formData, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       alert('Recipe added!');
       setFormData({ name: '', description: '', ingredients: [{ name: '', quantity: '', unit: 'g' }] });
-      const res = await axios.get('http://localhost:5000/api/recipes');
+      const res = await axios.get('/api/recipes');
       setRecipes(res.data);
     } catch (err) {
       alert(err.response?.data?.message || 'Failed to add recipe');

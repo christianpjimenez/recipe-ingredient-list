@@ -20,7 +20,7 @@ function List({ selectedRecipes, setSelectedRecipes }) {
   useEffect(() => {
     if (selectedRecipes.length === 0) return;
 
-    axios.post('http://localhost:5000/api/list/generate', {
+    axios.post('/api/list/generate', {
       recipeIds: selectedRecipes
     })
       .then(res => setIngredients(res.data))
