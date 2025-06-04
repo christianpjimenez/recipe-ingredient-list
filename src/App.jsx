@@ -64,7 +64,7 @@ function App() {
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/recipes" element={<Recipes selectedRecipes={selectedRecipes} setSelectedRecipes={setSelectedRecipes} />} />
 
-        <Route path="*" element={<div>404 Not Found</div>} />
+        <Route path="*" element={<div><h1>404 Not Found</h1><p>The page you are looking for does not exist.</p></div>} />
       </Routes>
     </Router>
   );

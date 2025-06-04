@@ -15,7 +15,7 @@ function Login({ setIsLoggedIn }) {
     e.preventDefault();
     setError('');
 
-    const endpoint = mode === 'login' ? 'http://localhost:5000/api/auth/login' : 'http://localhost:5000/api/auth/register';
+    const endpoint = mode === 'login' ? '/api/auth/login' : '/api/auth/register';
 
     try {
       const res = await fetch(endpoint, {
